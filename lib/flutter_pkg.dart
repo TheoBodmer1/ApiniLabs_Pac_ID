@@ -17,7 +17,7 @@ class CustomButton extends StatelessWidget {
         style: TextButton.styleFrom(
           padding: const EdgeInsets.all(16.0),
           primary: Colors.white,
-          backgroundColor: Colors.yellow,
+          backgroundColor: Colors.red,
           elevation: 9.0,
           textStyle: const TextStyle(
             fontSize: 20,
