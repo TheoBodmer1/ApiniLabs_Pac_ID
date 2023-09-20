@@ -1,27 +1,49 @@
 library flutter_pkg;
-import 'package:flutter/material.dart';
 
-class CustomButton extends StatelessWidget {
-  var onPressed;
-  final Widget child;
-  String? style;
-  CustomButton(
-      {Key? key, @required this.onPressed, required this.child, this.style})
-      : super(key: key);
+class PacId {
+  late String issuer;
+  late String category;
+  late String identifier;
+
+  PacId(this.issuer, this.category, this.identifier);
+
+  PacId.fromLink(String pacIdString) {
+    final s = pacIdString.split("/");
+    if (s.length == 4) {
+      final i = s[3].split("?i=");
+      if (i.length == 2) {
+        issuer = s[2];
+        category = i[0];
+        identifier = i[1];
+        return;
+      }
+    }
+    issuer = "not valid";
+    category = "";
+    identifier = "";
+  }
+
+  bool verify() {
+    // This is just a simple verification; it should be extended
+    // to implement the specs at: https://github.com/ApiniLabs/PAC-ID
+
+    if (issuer == "") {
+      return false;
+    }
+    if (category == "") {
+      return false;
+    }
+    if (identifier == "") {
+      return false;
+    }
+    return true;
+  }
 
   @override
-  Widget build(BuildContext context) {
-    return TextButton(
-        onPressed: onPressed,
-        style: TextButton.styleFrom(
-          padding: const EdgeInsets.all(16.0),
-          primary: Colors.white,
-          backgroundColor: Colors.red,
-          elevation: 9.0,
-          textStyle: const TextStyle(
-            fontSize: 20,
-          ),
-        ),
-        child: child);
+  String toString() {
+    if (verify()) {
+      return "https://$issuer/$category?i=$identifier";
+    }
+    return "not valid";
   }
 }
