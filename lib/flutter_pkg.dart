@@ -8,6 +8,8 @@ class PacId {
   PacId(this.issuer, this.category, this.identifier);
 
   PacId.fromLink(String pacIdString) {
+    // This constructor instantiates an instance of PacID by parsing a URI
+
     final s = pacIdString.split("/");
     if (s.length == 4) {
       final i = s[3].split("?i=");
