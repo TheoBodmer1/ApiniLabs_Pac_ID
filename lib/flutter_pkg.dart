@@ -1,9 +1,9 @@
 library flutter_pkg;
 
 class PacId {
-  late String issuer;
-  late String category;
-  late String identifier;
+  String issuer = "";
+  String category = "";
+  String identifier = "";
 
   PacId(this.issuer, this.category, this.identifier);
 
@@ -12,12 +12,14 @@ class PacId {
 
     final s = pacIdString.split("/");
     if (s.length == 4) {
-      final i = s[3].split("?i=");
-      if (i.length == 2) {
-        issuer = s[2];
-        category = i[0];
-        identifier = i[1];
-        return;
+      if (s[0] == "https:" || s[0] == "http:") {
+        final i = s[3].split("?i=");
+        if (i.length == 2) {
+          issuer = s[2];
+          category = i[0];
+          identifier = i[1];
+          return;
+        }
       }
     }
     issuer = "not valid";
