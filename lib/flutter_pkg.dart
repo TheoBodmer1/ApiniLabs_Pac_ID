@@ -5,10 +5,8 @@ import 'package:barcode_widget/barcode_widget.dart';
 
 class PacIdQrCode extends StatelessWidget {
   final String pacIdLink;
-  const PacIdQrCode({
-    super.key,
-    required this.pacIdLink,
-  });
+  final double size;
+  const PacIdQrCode({super.key, required this.pacIdLink, required this.size});
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +19,7 @@ class PacIdQrCode extends StatelessWidget {
         BarcodeWidget(
           barcode: Barcode.qrCode(), // Barcode type and settings
           data: pacIdLink, // Content
-          width: 160,
-          height: 160,
+          height: size,
         ),
         const SizedBox(
           height: 10,
