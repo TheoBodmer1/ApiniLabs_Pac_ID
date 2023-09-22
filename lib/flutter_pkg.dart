@@ -1,11 +1,56 @@
 library flutter_pkg;
 
+import 'package:flutter/material.dart';
+import 'package:barcode_widget/barcode_widget.dart';
+
+class PacIdQrCode extends StatelessWidget {
+  final String pacIdLink;
+  const PacIdQrCode({
+    super.key,
+    required this.pacIdLink,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    var p = PacId.fromLink(pacIdLink);
+    if (!p.verify()) {
+      return const Text("PAC-ID not valid.");
+    }
+    return Column(
+      children: [
+        BarcodeWidget(
+          barcode: Barcode.qrCode(), // Barcode type and settings
+          data: pacIdLink, // Content
+          width: 160,
+          height: 160,
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Link: $pacIdLink"),
+            Text("Issuer: ${p.issuer}"),
+            Text("Category: ${p.category}"),
+            Text("Identifer: ${p.identifier}"),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
 class PacId {
   String issuer = "";
   String category = "";
   String identifier = "";
 
-  PacId(this.issuer, this.category, this.identifier);
+  PacId({
+    required this.issuer,
+    required this.category,
+    required this.identifier,
+  });
 
   PacId.fromLink(String pacIdString) {
     // This constructor instantiates an instance of PacID by parsing a URI
@@ -22,7 +67,7 @@ class PacId {
         }
       }
     }
-    issuer = "not valid";
+    issuer = "";
     category = "";
     identifier = "";
   }
